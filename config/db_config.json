@@ -1,0 +1,7 @@
+
+{
+  "dbname": "innodream_finance",
+  "user": "postgres",
+  "password": "Smart123456",
+  "host": "localhost"
+}
