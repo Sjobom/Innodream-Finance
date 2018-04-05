@@ -5,3 +5,6 @@ CREATE TABLE tickers (
   name   TEXT NOT NULL,
   PRIMARY KEY (ticker)
 );
+
+INSERT INTO tickers(ticker, name)
+    VALUES('ABB.ST', 'ABB');
