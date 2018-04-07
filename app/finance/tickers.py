@@ -31,7 +31,7 @@ def update_tickers(new_tickers):
         cur.close()
 
 
-
+# returns dict with tickers and company name e.g {'ERIC-B.ST':'Ericsson', 'ABB.ST':'ABB', ...}
 def get_tickers_large_cap():
     tickers = dict()
     url = urls.nasdaq_large_cap_list()
