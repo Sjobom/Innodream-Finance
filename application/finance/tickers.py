@@ -1,22 +1,30 @@
 from bs4 import BeautifulSoup
 
-from app import http
+from application.db import db
+from application.db import queries
+from application.http import http
 from config import urls
-from app.db import queries
-from app.db import db
 
 
 def update_tickers_large_cap():
-    tickers = get_tickers_large_cap()
-    update_tickers(tickers)
+    tickers = _crawl_tickers_large_cap()
+    _update_tickers(tickers)
 
 
-def update_tickers(new_tickers):
+def get_tickers_large_cap():
+    tickers = dict()
+    tickers_from_db = _get_tickers_from_db()
+    for ticker_row in tickers_from_db:
+        ticker = ticker_row[0]
+        company_name = ticker_row[1]
+        tickers[ticker] = company_name
+    return tickers
+
+
+def _update_tickers(new_tickers):
     with db.connect() as conn:
-        conn = db.connect()
         cur = conn.cursor()
-        cur.execute(queries.get_all_tickers)
-        tickers_from_db = cur.fetchall()
+        tickers_from_db = _get_tickers_from_db()
         tickers_from_db_dict = dict()
         for ticker_row in tickers_from_db:
             ticker = ticker_row[0]
@@ -32,7 +40,7 @@ def update_tickers(new_tickers):
 
 
 # returns dict with tickers and company name e.g {'ERIC-B.ST':'Ericsson', 'ABB.ST':'ABB', ...}
-def get_tickers_large_cap():
+def _crawl_tickers_large_cap():
     tickers = dict()
     url = urls.nasdaq_large_cap_list()
     html_string = http.get_html(url)
@@ -43,13 +51,22 @@ def get_tickers_large_cap():
         columns = row.find_all('td')
         if(columns[2].get_text() == "SEK"):
             company_name = columns[0].find_all('a')[0].get_text()
-            ticker = format_ticker(columns[1].get_text())
+            ticker = _format_ticker(columns[1].get_text())
             tickers[ticker] = company_name
 
     return tickers
+
+
+def _get_tickers_from_db():
+    with db.connect() as conn:
+        cur = conn.cursor()
+        cur.execute(queries.get_all_tickers)
+        tickers_from_db = cur.fetchall()
+        return tickers_from_db
+
 # format the tickers so that they work with alpha vantage
 # change space to dash and add Stockholm signature to the end of the tickers
-def format_ticker(ticker):
+def _format_ticker(ticker):
     ticker = ticker.replace(" ", "-")
     ticker = ticker + ".ST"
     return ticker

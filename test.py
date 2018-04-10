@@ -1,5 +1,5 @@
-from app.finance import sma
-from app.finance import stock
+from application.finance import sma
+from application.finance import stock
 
 sma_values = sma.get_sma_values("ABB.ST", 10, "daily")
 stock_prices = stock.get_stock_price_close_history("ABB.ST")

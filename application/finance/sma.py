@@ -1,5 +1,5 @@
+from application.http import http
 from config import urls
-from app import http
 
 
 # Request multiple SMA values for different amounts of data points between start and end

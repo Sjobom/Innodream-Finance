@@ -1,5 +1,6 @@
+from application.http import http
 from config import urls
-from app import http
+
 
 # Request the closing stock price history for a specific stock ticker
 def get_stock_price_close_history(ticker):
