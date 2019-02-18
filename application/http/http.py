@@ -1,7 +1,7 @@
 import urllib.request
 import json
 
-from pip._vendor import requests
+import requests
 
 
 def get_json(url):

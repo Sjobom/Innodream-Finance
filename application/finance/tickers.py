@@ -2,8 +2,7 @@ from bs4 import BeautifulSoup
 
 from application.db import db
 from application.db import queries
-from application.http import http
-from config import urls
+from application.http import http, urls
 
 
 def update_tickers_large_cap():
@@ -70,5 +69,3 @@ def _format_ticker(ticker):
     ticker = ticker.replace(" ", "-")
     ticker = ticker + ".ST"
     return ticker
-
-update_tickers_large_cap()

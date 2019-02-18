@@ -1,31 +1,4 @@
-from application.http import http
-from config import urls
-
-
-# Request multiple SMA values for different amounts of data points between start and end
-def get_multiple_sma_values(ticker, start, end):
-    sma_dicts = dict()
-    for time_period in range(start, end):
-        print(str(time_period))
-        sma_dicts[time_period] = get_sma_values(ticker, time_period, "daily")
-    return sma_dicts
-
-
-# Request SMA values from Alpha Vantage API
-# interval = how often should the data points be (daily, weekly, monthly, 1min, 5min, 15min, 30min, 60min)
-# time_period = how many data points should the sma use
-def get_sma_values(ticker, time_period, interval):
-    sma_dict = dict()
-    sma_api_url = urls.alpha_vantage_sma_history()
-    sma_api_url = sma_api_url.replace("{time_period}",str(time_period))
-    sma_api_url = sma_api_url.replace("{ticker}", ticker)
-    sma_api_url = sma_api_url.replace("{interval}", interval)
-    data = http.get_json(sma_api_url)
-    sma_json_dict = data["Technical Analysis: SMA"]
-    for key, val in sma_json_dict.items():
-        sma_dict[key] = val["SMA"]
-    return sma_dict
-
+from application.http import http, urls
 
 # Compares SMA values to stock prices from a start date until now
 # start_date = "2018-03-27" e.g.
