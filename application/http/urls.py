@@ -1,7 +1,3 @@
-import json
-import os
-from flask import Flask
-
 from application.util import config
 
 def nasdaq_large_cap_list():

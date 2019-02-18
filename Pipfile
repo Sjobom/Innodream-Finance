@@ -10,6 +10,7 @@ flask = "*"
 psycopg2 = "*"
 bs4 = "*"
 requests = "*"
+pymongo = "*"
 
 [requires]
 python_version = "3.7"
