@@ -1,4 +1,4 @@
-#InnoDream Finance
+# InnoDream Finance
 A stock recommendation service for the Swedish stock market.
 
 [![Build Status](https://travis-ci.org/Sjobom/Innodream-Finance.svg?branch=master)](https://travis-ci.org/Sjobom/Innodream-Finance)
