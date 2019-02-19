@@ -63,6 +63,7 @@ def _get_tickers_from_db():
         tickers_from_db = cur.fetchall()
         return tickers_from_db
 
+
 # format the tickers so that they work with alpha vantage
 # change space to dash and add Stockholm signature to the end of the tickers
 def _format_ticker(ticker):
