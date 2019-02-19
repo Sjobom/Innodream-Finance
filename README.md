@@ -10,10 +10,4 @@ Create `secret.json` in the folder `application/instance` formatted like:
 ```
 {
   "world_trading_data_api_key": "XXXXXXXXXXXXXXXXXXXXXXXXXX"
-  "db": {
-    "dbname": "local db name",
-    "user": "postgres e.g.",
-    "password": "password",
-    "host": "localhost or IP address of db server"
-  }
 }
