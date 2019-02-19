@@ -2,7 +2,7 @@ from application.util import config
 
 
 def nasdaq_large_cap_list():
-    return "http://www.nasdaqomxnordic.com/aktier/listed-companies/nordic-large-cap"
+    return "http://www.nasdaqomxnordic.com/aktier/listed-companies/stockholm"
 
 
 def world_trading_data_single_day_history(ticker, date):
