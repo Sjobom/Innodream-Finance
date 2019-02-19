@@ -258,3 +258,8 @@ fabric.properties
 .venv/
 
 # End of https://www.gitignore.io/api/flask,python,pycharm
+\.idea/Innodream-Finance\.iml
+
+\.idea/innodream_finance_backend\.iml
+
+\.idea/misc\.xml
