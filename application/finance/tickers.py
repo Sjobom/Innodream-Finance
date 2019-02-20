@@ -33,6 +33,13 @@ def _swedish_format(ticker):
     ticker = ticker + ".ST"
     return ticker
 
+
 def _persist_tickers(tickers):
     mongo_db = db.get_mongo_db()
     return mongo_db.tickers.insert_many(tickers)
+
+
+def get_tickers():
+    mongo_db = db.get_mongo_db()
+    return list(mongo_db.tickers.find({}, {'_id': False}))
+
