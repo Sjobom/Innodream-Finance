@@ -7,7 +7,7 @@ def update_tickers():
     tickers = _crawl_stockholm_tickers()
     return _persist_tickers(tickers)
 
-# returns dict with tickers and company name e.g {'ERIC-B.ST':'Ericsson', 'ABB.ST':'ABB', ...}
+# returns dict with tickers and company name
 def _crawl_stockholm_tickers():
     tickers = list()
     url = urls.nasdaq_large_cap_list()
