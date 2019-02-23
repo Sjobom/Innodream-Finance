@@ -12,12 +12,16 @@ def store_single_day_history(ticker, date, single_day_history):
     mongo_db = db.get_mongo_db()
     if mongo_db.history.count_documents({'ticker': ticker, 'date': date}, limit=1):
         return  # history for this date and ticker already exists
-    history_data = {
+    history_data = create_history_document(ticker, date, single_day_history)
+    return mongo_db.history.insert_one(history_data)
+
+
+def create_history_document(ticker, date, single_day_history):
+    return {
         'ticker': ticker,
         'date': date,
         'history': single_day_history
     }
-    return mongo_db.history.insert_one(history_data)
 
 
 def get_full_history(ticker):
