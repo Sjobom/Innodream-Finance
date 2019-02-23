@@ -10,6 +10,8 @@ def get_single_day_history(ticker, date = str(date.today())):
 
 def store_single_day_history(ticker, date, single_day_history):
     mongo_db = db.get_mongo_db()
+    if mongo_db.history.count_documents({'ticker': ticker, 'date': date}, limit=1):
+        return  # history for this date and ticker already exists
     history_data = {
         'ticker': ticker,
         'date': date,
