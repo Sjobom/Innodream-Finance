@@ -11,6 +11,6 @@ class History(Document):
     volume = IntField(required=True, min_value=0)
 
 
-class Ticker(Document):
+class Company(Document):
     ticker = StringField(required=True)
-    company_name = StringField(required=True)
+    name = StringField(required=True)
