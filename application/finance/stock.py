@@ -6,10 +6,15 @@ from mongoengine import NotUniqueError
 
 def get_single_day_history(ticker, date = str(date.today())):
     single_day_history_url = urls.world_trading_data_single_day_history(ticker, date)
-    return http.get_json(single_day_history_url)
+    single_day_history_json = http.get_json(single_day_history_url)
+    if not contains_valid_data(single_day_history_json):
+        return None
+    return single_day_history_json
 
 
 def store_single_day_history(ticker, date, single_day_history):
+    if single_day_history is None:
+        return
     history_document = models.History(
         ticker=ticker,
         date=date,
@@ -27,10 +32,22 @@ def store_single_day_history(ticker, date, single_day_history):
 
 
 def get_full_history(ticker):
-    history_url = urls.world_trading_data_full_history(ticker)
-    return http.get_json(history_url)
+    full_history_url = urls.world_trading_data_full_history(ticker)
+    full_history_json = http.get_json(full_history_url)
+    if not contains_valid_data(full_history_json):
+        return None
+    return full_history_json
+
+
+def contains_valid_data(json):
+    if 'Message' in json:
+        print('invalid data found: ' + json['Message'])
+        return False
+    return True
 
 
 def store_full_history(ticker, full_history):
+    if full_history is None:
+        return
     for date, single_day_history in full_history['history'].items():
         store_single_day_history(ticker, date, single_day_history)
