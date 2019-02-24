@@ -2,6 +2,7 @@ from datetime import date
 from application.http import http, urls
 from application.db import db, models
 from mongoengine import NotUniqueError
+from application.finance import tickers
 
 
 def get_single_day_history(ticker, date = str(date.today())):
@@ -51,3 +52,10 @@ def store_full_history(ticker, full_history):
         return
     for date, single_day_history in full_history['history'].items():
         store_single_day_history(ticker, date, single_day_history)
+
+
+def get_and_store_all_stockholm_stocks_full_history():
+    stockholm_tickers = tickers.get_tickers()
+    for ticker in stockholm_tickers:
+        ticker_history = get_full_history(ticker['ticker'])
+        store_full_history(ticker['ticker'], ticker_history)
