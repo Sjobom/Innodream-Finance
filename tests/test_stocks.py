@@ -2,10 +2,14 @@ import unittest
 from application.http import urls
 from application.util import config
 from application.finance import stock
-from application.db import db
+from mongoengine import connect
 
 
 class TestStockMethods(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        connect('innodream_finance')
 
     def test_single_day_history_url(self):
         url = urls.world_trading_data_single_day_history('ABB.ST', '2019-02-18')
@@ -21,10 +25,6 @@ class TestStockMethods(unittest.TestCase):
         self.assertDictEqual(json_response, oracle)
 
     def test_add_history_to_db(self):
-        insert_result = stock.store_single_day_history('FAKE.ST', '1901-02-15',
-                                                       {"open": "1337.00", "close": "1338.00", "high": "1340.00",
-                                                        "low": "1330.00", "volume": "9000"})
-        self.assertTrue(insert_result.acknowledged)
-        mongo_db = db.get_mongo_db()
-        delete_result = mongo_db.history.delete_one({'_id': insert_result.inserted_id})
-        self.assertTrue(delete_result.acknowledged)
+        history = stock.store_single_day_history('FAKE.ST', '1901-02-15',{"open": 1337.00, "close": 1338.00, "high": 1340.00,"low": 1330.00, "volume": 9000})
+        self.assertTrue(history.id is not None)
+        history.delete()

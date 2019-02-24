@@ -1,6 +1,7 @@
 from datetime import date
 from application.http import http, urls
-from application.db import db
+from application.db import db, models
+from mongoengine import NotUniqueError
 
 
 def get_single_day_history(ticker, date = str(date.today())):
@@ -9,19 +10,20 @@ def get_single_day_history(ticker, date = str(date.today())):
 
 
 def store_single_day_history(ticker, date, single_day_history):
-    mongo_db = db.get_mongo_db()
-    if mongo_db.history.count_documents({'ticker': ticker, 'date': date}, limit=1):
-        return  # history for this date and ticker already exists
-    history_data = create_history_document(ticker, date, single_day_history)
-    return mongo_db.history.insert_one(history_data)
-
-
-def create_history_document(ticker, date, single_day_history):
-    return {
-        'ticker': ticker,
-        'date': date,
-        'history': single_day_history
-    }
+    history_document = models.History(
+        ticker=ticker,
+        date=date,
+        open=single_day_history['open'],
+        close=single_day_history['close'],
+        high=single_day_history['high'],
+        low=single_day_history['low'],
+        volume=single_day_history['volume']
+    )
+    try:
+        history_document.save()
+    except NotUniqueError:
+        pass  # we don't want duplicates, so this is ok!
+    return history_document
 
 
 def get_full_history(ticker):
