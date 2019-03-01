@@ -3,12 +3,12 @@ from application.http import http, urls
 from application.db import db, models
 
 def update_tickers():
-    tickers = _crawl_stockholm_tickers()
-    return _persist_tickers(tickers)
+    companies = _crawl_stockholm_companies()
+    return _persist_companies(companies)
 
 
 # returns dict with tickers and company name
-def _crawl_stockholm_tickers():
+def _crawl_stockholm_companies():
     companies = list()
     url = urls.nasdaq_large_cap_list()
     html_string = http.get_html(url)
@@ -33,7 +33,7 @@ def _swedish_format(ticker):
     return ticker
 
 
-def _persist_tickers(companies):
+def _persist_companies(companies):
     for company in companies:
         ticker_document = models.Company(
             ticker=company['ticker'],
@@ -42,5 +42,5 @@ def _persist_tickers(companies):
         ticker_document.save()
 
 
-def get_tickers():
+def get_companies():
     return models.Company.objects

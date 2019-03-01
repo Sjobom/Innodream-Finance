@@ -16,8 +16,8 @@ flask_app.config['JSON_AS_ASCII'] = False
 
 @flask_app.route('/tickers')
 def get_tickers():
-    ticker_list = tickers.get_tickers()
-    ticker_json_dict = {'tickers': ticker_list}
-    return jsonify(ticker_json_dict)
+    company_list = tickers.get_companies()
+    company_ticker_json_dict = {'companies': company_list}
+    return jsonify(company_ticker_json_dict)
 
 

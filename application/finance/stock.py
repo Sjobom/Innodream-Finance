@@ -55,14 +55,14 @@ def store_full_history(ticker, full_history):
 
 
 def get_and_store_all_stockholm_stocks_full_history():
-    stockholm_tickers = tickers.get_tickers()
-    for ticker in stockholm_tickers:
-        ticker_history = get_full_history(ticker['ticker'])
-        store_full_history(ticker['ticker'], ticker_history)
+    stockholm_companies = tickers.get_companies()
+    for company in stockholm_companies:
+        ticker_history = get_full_history(company['ticker'])
+        store_full_history(company['ticker'], ticker_history)
 
 
 def get_and_store_all_stockholm_stocks_day_history(date):
-    stockholm_companies = tickers.get_tickers()
+    stockholm_companies = tickers.get_companies()
     for company in stockholm_companies:
         ticker_history = get_single_day_history(company['ticker'], date)
         print(ticker_history)

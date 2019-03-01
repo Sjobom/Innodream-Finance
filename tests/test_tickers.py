@@ -4,6 +4,7 @@ from application.finance import tickers
 
 class TestTickerMethods(unittest.TestCase):
 
-    def test_crawl_tickers(self):
-        crawled_tickers = tickers._crawl_stockholm_tickers()
-        self.assertTrue({'ticker':'ABB.ST', 'name': 'ABB Ltd'} in crawled_tickers)
+    # TODO replace network call with mock
+    def test_crawl_company_tickers(self):
+        crawled_companies = tickers._crawl_stockholm_companies()
+        self.assertTrue({'ticker':'ABB.ST', 'name': 'ABB Ltd'} in crawled_companies)
