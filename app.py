@@ -3,6 +3,7 @@ from application.finance import tickers
 from application.util import config
 from mongoengine import connect
 from application.finance import stock
+from application.finance import tickers
 from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
 
@@ -26,6 +27,7 @@ flask_app = Flask(__name__, instance_path='/application/instance')
 flask_app.config['JSON_AS_ASCII'] = False
 scheduler = init_background_scheduler()
 stock.schedule_stock_retrieval(scheduler)
+tickers.schedule_company_retrieval(scheduler)
 
 
 @flask_app.route('/tickers')

@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from application.http import http, urls
 from application.db import db, models
 
+
 def update_tickers():
     companies = _crawl_stockholm_companies()
     return _persist_companies(companies)
@@ -44,3 +45,7 @@ def _persist_companies(companies):
 
 def get_companies():
     return models.Company.objects
+
+def schedule_company_retrieval(scheduler):
+    # update tickers every day
+    scheduler.add_job(update_tickers(), 'cron', hour=23, minute=0)
