@@ -48,4 +48,4 @@ def get_companies():
 
 def schedule_company_retrieval(scheduler):
     # update tickers every day
-    scheduler.add_job(update_tickers(), 'cron', hour=23, minute=0)
+    scheduler.add_job(update_tickers, 'cron', hour=23, minute=0)

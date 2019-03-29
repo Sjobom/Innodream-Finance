@@ -58,6 +58,8 @@ def get_and_store_all_stockholm_stocks_full_history():
     stockholm_companies = tickers.get_companies()
     for company in stockholm_companies:
         ticker_history = get_full_history(company['ticker'])
+        if ticker_history is None:
+            return
         store_full_history(company['ticker'], ticker_history)
 
 
@@ -65,12 +67,13 @@ def get_and_store_all_stockholm_stocks_day_history(date):
     stockholm_companies = tickers.get_companies()
     for company in stockholm_companies:
         ticker_history = get_single_day_history(company['ticker'], date)
-        print(ticker_history)
+        if ticker_history is None:
+            return
         store_single_day_history(company['ticker'], date, ticker_history['data'][company['ticker']])
 
 
 def schedule_stock_retrieval(scheduler):
     # get day history every weekday
-    scheduler.add_job(get_and_store_all_stockholm_stocks_day_history(date.today()), 'cron', day_of_week='mon-fri', hour=0, minute=0)
+    scheduler.add_job(func=get_and_store_all_stockholm_stocks_day_history, args=[str(date.today())], trigger='cron', day_of_week='mon-fri', hour=0, minute=0)
     # get full history every sunday (if something went wrong earlier)
-    scheduler.add_job(get_and_store_all_stockholm_stocks_full_history(), 'cron', day='sun', hour=0, minute=0)
+    scheduler.add_job(get_and_store_all_stockholm_stocks_full_history, 'cron', day_of_week='sun', hour=0, minute=0)
