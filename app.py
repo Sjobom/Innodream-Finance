@@ -37,3 +37,5 @@ def get_tickers():
     return jsonify(company_ticker_json_dict)
 
 
+if __name__ == '__main__':
+    flask_app.run()
